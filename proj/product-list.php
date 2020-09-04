@@ -22,29 +22,40 @@ $rows = $stmt->fetchAll();
 </style>
 <?php include __DIR__ . '/../part/__navbar.php' ?>
 <div class="container">
-    <!--<table class="table table-striped">
-          `sid`, `name`, `price`, `mobile`, `birthday`, `address`, `created_at` 
+    <table class="table table-striped">
+        <!-- `sid`, `name`, `price`, `mobile`, `birthday`, `address`, `created_at` -->
         <thead>
             <tr>
-                <th scope="col">#</th>
+                <th scope="col" style="display: none;">#</th>
                 <th scope="col">商品圖</th>
-                <th scope="col">姓名</th>
+                <th scope="col">商品名稱</th>
                 <th scope="col">價格</th>
+                <th scope="col">數量</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($rows as $r) : ?>
                 <tr>
-                    <td><?= $r['sid'] ?></td>
+                    <td style="display: none;"><?= $r['sid'] ?></td>
                     <td><img src="<?= WEB_ROOT ?>/img/<?= $r['img'] ?>"> </td>
                     <td><?= $r['name'] ?></td>
                     <td><?= $r['price'] ?></td>
+                    <td>
+                        <p>
+                            <select type="number" class="form-control" style="display: inline-block; width: auto;">
+                                <?php for ($i = 1; $i <= 20; $i++) : ?>
+                                    <option value="<?= $i ?>"><?= $i ?></option>
+                                <?php endfor; ?>
+                            </select>
+                        </p>
+                    </td>
+                    <td><a href="#"><button type="button" class=" btn btn-primary buy-btn ">加入購物車</button></a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
-    </table>-->
+    </table>
 
-    <div class="row">
+    <!-- <div class="row">
         <?php foreach ($rows as $r) : ?>
             <div class="card">
                 <img src="<?= WEB_ROOT ?>/img/<?= $r['img'] ?>">
@@ -65,7 +76,7 @@ $rows = $stmt->fetchAll();
 
             </div>
         <?php endforeach; ?>
-    </div>
+    </div> -->
 
 
 
