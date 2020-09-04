@@ -37,8 +37,8 @@ $rows = $stmt->fetchAll();
             <?php foreach ($rows as $r) : ?>
                 <tr>
                     <td style="display: none;"><?= $r['sid'] ?></td>
-                    <td><img src="<?= WEB_ROOT ?>/img/<?= $r['img'] ?>"> </td>
-                    <td><?= $r['name'] ?></td>
+                    <td><img src="<?= WEB_ROOT ?>/img/<?= $r['img'] ?>" id="img" name="img"> </td>
+                    <td><span id="name" name="name"><?= $r['name'] ?></span></td>
                     <td><?= $r['price'] ?></td>
                     <td>
                         <p>
@@ -49,7 +49,7 @@ $rows = $stmt->fetchAll();
                             </select>
                         </p>
                     </td>
-                    <td><a href="#"><button type="button" class=" btn btn-primary buy-btn ">加入購物車</button></a></td>
+                    <td><a href="#"><button type="button" class=" btn btn-primary buy-btn btn-add-cart">加入購物車</button></a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
@@ -82,23 +82,12 @@ $rows = $stmt->fetchAll();
 
 </div>
 <?php include __DIR__ . '/../part/__scripts.php' ?>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script>
-    const buy_btns = $('.buy-btn');
-
-    buy_btns.click(function() {
-        const p_item = $(this).closest('.p-item');
-        const sid = p_item.attr('data-sid');
-        const qty = p_item.find('select').val();
-
-        const sendObj = {
-            action: 'add',
-            sid,
-            quantity: qty
-        }
-        $.get('handle-cart.php', sendObj, function(data) {
-            console.log(data);
-            setCartCount(data);
-        }, 'json');
-    });
+    $('.btn-add-cart').on('click', function() {
+        console.log($(this).parent().parent().siblings().eq(2).text());
+        console.log($(this).parent().parent().siblings().eq(3).text());
+        console.log($(this).parent().parent().siblings().eq(4).find('select').val());
+    })
 </script>
 <?php require __DIR__ . '/../part/__html_foot.php' ?>
