@@ -37,8 +37,9 @@ $rows = $stmt->fetchAll();
             <?php foreach ($rows as $r) : ?>
                 <tr>
                     <td style="display: none;"><?= $r['sid'] ?></td>
-                    <td><img src="<?= WEB_ROOT ?>/img/<?= $r['img'] ?>" id="img" name="img"> </td>
-                    <td><span id="name" name="name"><?= $r['name'] ?></span></td>
+                    <td><p style="display: none;"><?= $r['img'] ?></p><img src="<?= WEB_ROOT ?>/img/<?= $r['img'] ?>.jpg" id="img" name="img">
+                    </td>
+                    <td><?= $r['name'] ?></td>
                     <td><?= $r['price'] ?></td>
                     <td>
                         <p>
@@ -49,45 +50,21 @@ $rows = $stmt->fetchAll();
                             </select>
                         </p>
                     </td>
-                    <td><a href="#"><button type="button" class=" btn btn-primary buy-btn btn-add-cart">加入購物車</button></a></td>
+                    <td><button type="button" class=" btn btn-primary buy-btn btn-add-cart">加入購物車</button></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-
-    <!-- <div class="row">
-        <?php foreach ($rows as $r) : ?>
-            <div class="card">
-                <img src="<?= WEB_ROOT ?>/img/<?= $r['img'] ?>">
-                <div class="card_body">
-                    <p style="display: none;"><?= $r['sid'] ?></p>
-                    <p><?= $r['name'] ?></p>
-                    <p><?= $r['price'] ?></p>
-                    <p>
-                        <select type="number" class="form-control" style="display: inline-block; width: auto;">
-                            <?php for ($i = 1; $i <= 20; $i++) : ?>
-                                <option value="<?= $i ?>"><?= $i ?></option>
-                            <?php endfor; ?>
-                        </select>
-                    </p>
-                    <p class=""><button type="button" class=" btn btn-primary buy-btn ">加入購物車</button></p>
-
-                </div>
-
-            </div>
-        <?php endforeach; ?>
-    </div> -->
-
-
 
 </div>
 <?php include __DIR__ . '/../part/__scripts.php' ?>
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script>
     $('.btn-add-cart').on('click', function() {
-        console.log($(this).parent().parent().siblings().eq(2).text());
-        console.log($(this).parent().parent().siblings().eq(3).text());
-        console.log($(this).parent().parent().siblings().eq(4).find('select').val());
+        console.log($(this).parent().siblings().eq(1).text());
+        console.log($(this).parent().siblings().eq(2).text());
+        console.log($(this).parent().siblings().eq(3).text());
+        console.log($(this).parent().siblings().eq(4).find('select').val());
     })
 </script>
 <?php require __DIR__ . '/../part/__html_foot.php' ?>
