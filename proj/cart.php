@@ -1,10 +1,11 @@
 <?php
 require __DIR__ . '/../part/__connect_db.php';
 
-$stmt = $pdo->query("SELECT * FROM `product-list` LIMIT 5");
+$stmt = $pdo->query("SELECT * FROM `cart` LIMIT 5");
 
 $rows = $stmt->fetchAll();
 ?>
+
 <?php include __DIR__ . '/../part/__html_head.php' ?>
 <style>
     img {
@@ -24,6 +25,7 @@ $rows = $stmt->fetchAll();
 <div class="container">
     <table class="table table-striped">
         <!-- `sid`, `name`, `price`, `mobile`, `birthday`, `address`, `created_at` -->
+        <h2>確認購物車</h2>
         <thead>
             <tr>
                 <th scope="col" style="display: none;">#</th>
@@ -51,21 +53,44 @@ $rows = $stmt->fetchAll();
                             </select>
                         </p>
                     </td>
-                    <td><button type="button" class=" btn btn-primary buy-btn btn-add-cart">加入購物車</button></td>
+                    <td><a href="delete-api.php?sid=<?= $r['sid'] ?>" onclick="ifDel(event)" sid="<?= $r['sid'] ?>"><button type="button" class=" btn btn-danger buy-btn btn-add-cart-remove">刪除商品</button></a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
+    <div class="d-flex justify-content-end"><button type="button" class=" btn btn-primary buy-btn btn-add-cart">結帳</button></div>
 
 </div>
 <?php include __DIR__ . '/../part/__scripts.php' ?>
-<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script>
-    $('.btn-add-cart').on('click', function() {
-        console.log($(this).parent().siblings().eq(1).text());
-        console.log($(this).parent().siblings().eq(2).text());
-        console.log($(this).parent().siblings().eq(3).text());
-        console.log($(this).parent().siblings().eq(4).find('select').val());
+    const table = document.querySelector('table');
+
+    table.addEventListener('click', (event) => {
+        const t = event.target;
+        console.log(t.classList.contains('btn-add-cart-remove'));
+
+        if (t.classList.contains('btn-add-cart-remove')) {
+            t.closest('tr').remove();
+        }
     })
+
+
+    function ifDel(event) {
+        const a = event.currentTarget;
+        console.log(event.target, event.currentTarget);
+        const sid = a.getAttribute('data-sid');
+        if (!confirm(`是否要刪除編號為 ${sid} 的資料?`)) {
+            event.preventDefault(); // 取消連往 href 的設定
+        }
+    }
+
+
+    function delete_it(sid) {
+
+        if (confirm(`是否要刪除編號為 ${sid} 的資料???`)) {
+            location.href = 'delete-api.php?sid='
+            sid;
+        }
+    }
 </script>
 <?php require __DIR__ . '/../part/__html_foot.php' ?>
