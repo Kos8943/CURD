@@ -47,16 +47,14 @@ $rows = $stmt->fetchAll();
                     <td><?= $r['name'] ?></td>
                     <td class="price"><?= $r['price'] ?></td>
                     <td class="quantity">
-                        <p>
-                            <select type="number" class="form-control" style="display: inline-block; width: auto;">
-                                <?php for ($i = 1; $i <= 20; $i++) : ?>
-                                    <option value="<?= $i ?>"><?= $i ?></option>
-                                <?php endfor; ?>
-                            </select>
-                        </p>
+                        <select type="number" class="form-control" id="form-control" style="display: inline-block; width: auto;">
+                            <?php for ($i = 1; $i <= 20; $i++) : ?>
+                                <option value="<?= $i ?>"><?= $i ?></option>
+                            <?php endfor; ?>
+                        </select>
                     </td>
                     </td>
-                    <td class="sub-total">123</td>
+                    <td class="sub-total"></td>
                     <td>
                         <a href="delete-api.php?sid=<?= $r['sid'] ?>" onclick="ifDel(event)" sid="<?= $r['sid'] ?>">
                             <button type="button" class=" btn btn-danger buy-btn btn-add-cart-remove">刪除商品</button>
@@ -98,11 +96,45 @@ $rows = $stmt->fetchAll();
     }
 
 
-    $('.form-control').on('change', function() {
-        console.log($(this).parent().parent().siblings().eq(1).text());
-        console.log($(this).parent().parent().siblings().eq(2).text());
-        console.log($(this).parent().parent().siblings().eq(3).text());
-        console.log($(this).parent().parent().siblings().eq(4).text());
-    })
+    // $('.form-control').on('change', function() {
+    //     console.log($(this).parent().parent().siblings().eq(1).text());
+    //     console.log($(this).parent().parent().siblings().eq(2).text());
+    //     console.log($(this).parent().parent().siblings().eq(3).text());
+    //     console.log($(this).parent().parent().siblings().eq(4).text());
+    // })
+
+    $('.quantity').change(function() {
+        $("tbody>tr").each(function() {
+            var subtotal = parseInt($(this).find(".price").text()) * parseInt($(this).find('select').val());
+            $(this).find(".sub-total").text(subtotal)
+        })
+        var total = 0;
+        $(".sub-total").each(function() {
+            total += parseInt($(this).text())
+        });
+        $('#total-price').text(total);
+
+
+
+        const fd = new FormData();
+        fd.append('qutity', parseInt($(this).find('select').val()));
+        fd.append('sid', '123');
+        // fd.append('price', 123);
+        // fd.append('quantity', 123);
+
+        fetch('cart-api.php', {
+                method: 'post',
+                body: fd
+            })
+            .then(r => r.json())
+            .then(str => {
+                console.log(str);
+            });
+
+
+            sql = "UPDATE ``  SET  `qutity`=? WHRER sid=?"
+
+
+    });
 </script>
 <?php require __DIR__ . '/../part/__html_foot.php' ?>
